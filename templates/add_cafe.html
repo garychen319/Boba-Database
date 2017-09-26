@@ -1,0 +1,45 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <body>
+  
+    <h2>Add Cafe</h2>
+    {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+    <form action="/add_cafe" method=post>
+      <dl>
+        <dt>Cafe Name:
+        <dd><input type=text name=cafe_name>
+        <dt>Price Range:
+        <dd>
+        <select name = "price_range">
+          <option value="$">$</option>
+          <option value="$$">$$</option>
+          <option value="$$$">$$$</option>
+          <option value="$$$$">$$$$</option>
+        </select>
+        <dt>Phone Number:
+        <dd><input type=text name=phone_number>
+        <dt>Payment Option:
+        <dd>
+        <select name = "payment_option">
+          <option value="Cash Only">Cash Only</option>
+          <option value="Cash/Credit">Cash and Credit</option>
+          <option value="Dining Dollars/Cash/Credit">Dining Dollars, Cash, and Credit</option>
+        </select>
+        <dt>Hours (ex: 10:00am - 11:00pm):
+        <dd><input type=text name=hours>
+        <dt>Best Seller:
+        <dd><input type=text name=best_seller>
+        <dt>Building Number:
+        <dd><input type=text name=building_number>
+        <dt>Street Name:
+        <dd><input type=text name=street_name>
+        <dt>Neighborhood (ex: Koreatown, Chinatown, Soho)
+        <dd><input type=text name=neighborhood>
+        <dd><input type=submit value="Add Cafe">
+      </dl>
+    </form>
+
+  </body>
+</html>

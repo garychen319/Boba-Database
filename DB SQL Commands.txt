@@ -1,0 +1,215 @@
+SELECT L.street
+FROM Location L, Located_At LA
+WHERE L.lid = LA.lid AND LA.cid = 
+
+CREATE TABLE Location(
+	lid INTEGER,
+	street varchar(20),
+	building_number INTEGER,
+	neighborhood varchar(20),
+	PRIMARY KEY(lid)
+);
+
+CREATE TABLE Cafe(
+	cid INTEGER,
+	name varchar(30);
+	price_range varchar(20) CHECK (price_range in ('$', '$$', '$$$', '$$$$', '$$$$$')),
+	phone_number varchar(20),
+	payment_option varchar(30) CHECK (payment_option in ('Credit Only', 'Cash Only', 'Cash/Credit', 'Dining Dollars/Cash/Credit')),
+	hours varchar(20),
+	best_seller varchar(30),
+	PRIMARY KEY(cid)
+);
+
+CREATE TABLE Users(
+	uid INTEGER,
+	status varchar(10) CHECK (status in ('Novice', 'Enthusiast', 'Bobaholic', 'VIP')),
+	first_name varchar(15),
+	last_name varchar(15),
+	username varchar(15),
+	password varchar(15),
+	PRIMARY KEY(uid)
+);
+
+CREATE TABLE Checked_In(
+	cid INTEGER,
+	uid INTEGER,
+
+	FOREIGN KEY(uid) REFERENCES Users,
+	FOREIGN KEY(cid) REFERENCES Cafe
+		ON DELETE CASCADE,
+	PRIMARY KEY(cid, uid)
+);
+
+CREATE TABLE Located_At(
+	cid INTEGER,
+	lid INTEGER,
+
+	FOREIGN KEY(lid) REFERENCES Location,
+	FOREIGN Key(cid) REFERENCES Cafe
+		ON DELETE CASCADE,
+	PRIMARY KEY(cid)
+);
+
+
+CREATE TABLE Review_Written(
+	revid INTEGER,
+	description varchar(250),
+	cid INTEGER,
+	uid INTEGER,
+	date DATE,
+
+	FOREIGN KEY(uid) REFERENCES Users,
+	FOREIGN Key(cid) REFERENCES Cafe
+		ON DELETE CASCADE,
+	PRIMARY KEY(revid)
+);
+
+CREATE TABLE Rating_Given(
+	ratid INTEGER,
+	stars INTEGER CHECK (stars >= 1 AND stars <=5),
+	category varchar(20) CHECK (category in ('Health', 'Ambiance', 'Service', 'Tastiness')),
+	cid INTEGER,
+	uid INTEGER,
+	date DATE,
+
+	FOREIGN KEY(uid) REFERENCES Users,
+	FOREIGN Key(cid) REFERENCES Cafe
+		ON DELETE CASCADE,
+	PRIMARY KEY(ratid)
+);
+
+
+
+
+Users:
+
+INSERT INTO users VALUES (1, 'Bobaholic', 'Gary', 'Chen', 'garychen', 'boba');
+INSERT INTO users VALUES (2, 'Bobaholic', 'Margaret', 'Qian', 'margaretqian', 'boba2');
+INSERT INTO users VALUES (3, 'Novice', 'Kevin', 'Lin', 'kevinlin', 'boba3');
+INSERT INTO users VALUES (4, 'Novice', 'Bryan', 'Li', 'bryanli', 'boba4');
+INSERT INTO users VALUES (5, 'VIP', 'Mari', 'Funabashi', 'mfunabashi', 'boba5');
+INSERT INTO users VALUES (6, 'VIP', 'Jeremy', 'Ng', 'jeremyng', 'boba6');
+INSERT INTO users VALUES (7, 'VIP', 'Hannah', 'Wang', 'hannahwang', 'boba7');
+INSERT INTO users VALUES (8, 'Novice', 'Jason', 'Shu', 'jasonshu', 'boba8');
+INSERT INTO users VALUES (9, 'Bobaholic', 'Chris', 'Gao', 'chrisgao', 'boba9');
+INSERT INTO users VALUES (10, 'VIP', 'Min', 'Hwang', 'minhwang', 'boba10');
+
+
+Locations:
+
+INSERT INTO location VALUES (1, 'Broadway', '3111', 'Morningside Heights');
+INSERT INTO location VALUES (2, 'Broadway', '2667', 'Morningside Heights');
+INSERT INTO location VALUES (3, 'Broadway', '2920', 'Morningside Heights');
+INSERT INTO location VALUES (4, 'Broadway', '2878', 'Morningside Heights');
+INSERT INTO location VALUES (5, 'Canal St', '234', 'Chinatown');
+INSERT INTO location VALUES (6, '32nd St', '12', 'Koreatown');
+INSERT INTO location VALUES (7, 'Bayard St', '49', 'Chinatown');
+INSERT INTO location VALUES (8, 'Clinton St', '23', 'Lower East Side');
+INSERT INTO location VALUES (9, 'E 45 St', '129', 'Midtown');
+INSERT INTO location VALUES (10, 'Mott St', '73', 'Chinatown');
+
+
+Cafes:
+
+INSERT INTO cafe VALUES(1, 'Culture Tea', '$$$$', '(212)662-6096', 'Cash/Credit', '8:00am - 8:00pm', 'Earl Grey Milk Tea');
+INSERT INTO cafe VALUES(2, 'Shiny Tea', '$$$', '(718)888-1781', 'Cash/Credit', '10:00am - 10:00pm', 'Panda Milk Tea');
+INSERT INTO cafe VALUES(3, 'Cafe East', '$$$', '(212)854-4076', 'Dining Dollars/Cash/Credit', '11:30am - 9:00pm', 'Black Milk Tea');
+INSERT INTO cafe VALUES(4, 'Tea Magic', '$$', '(212)666-3665', 'Cash/Credit', '11:00am - 11:30pm', 'Jasmine Milk Tea');
+INSERT INTO cafe VALUES(5, 'Kung Fu Tea', '$$', '(212)966-2786', 'Cash Only', '11:00am - 10:00pm', 'Matcha Latte');
+INSERT INTO cafe VALUES(6, 'Gong Cha', '$$', '(646)998-4362', 'Cash/Credit', '11:00am - 10:00pm', 'Matcha Milk Foam');
+INSERT INTO cafe VALUES(7, 'Vivi Bubble Tea', '$$', '(212)566-6833', 'Cash Only', '10:00am - 10:30pm', 'Tiramisu Milk Tea');
+INSERT INTO cafe VALUES(8, 'Boba Guys', '$$', NULL, 'Cash/Credit', '12:00pm - 9:00pm', 'Black Milk Tea');
+INSERT INTO cafe VALUES(9, 'CoCo Fresh Tea and Juice', '$', '(212)518-8808', 'Cash/Credit', '10:00am - 10:00pm', 'Mango Green Tea');
+INSERT INTO cafe VALUES(10, 'Ten Ren Tea', '$$', '(212)732-7178', 'Cash Only', '11:00am - 9:30pm', 'Taro Genmai Cha');
+
+
+Checked In:
+
+INSERT INTO checked_in VALUES(1, 1);
+INSERT INTO checked_in VALUES(1, 2);
+INSERT INTO checked_in VALUES(2, 3);
+INSERT INTO checked_in VALUES(2, 4);
+INSERT INTO checked_in VALUES(2, 7);
+INSERT INTO checked_in VALUES(2, 9);
+INSERT INTO checked_in VALUES(3, 5);
+INSERT INTO checked_in VALUES(4, 6);
+INSERT INTO checked_in VALUES(5, 8);
+INSERT INTO checked_in VALUES(6, 10);
+
+
+Located At:
+
+INSERT INTO located_at VALUES(1, 1);
+INSERT INTO located_at VALUES(2, 2);
+INSERT INTO located_at VALUES(3, 3);
+INSERT INTO located_at VALUES(4, 4);
+INSERT INTO located_at VALUES(5, 5);
+INSERT INTO located_at VALUES(6, 6);
+INSERT INTO located_at VALUES(7, 7);
+INSERT INTO located_at VALUES(8, 8);
+INSERT INTO located_at VALUES(9, 9);
+INSERT INTO located_at VALUES(10, 10);
+
+
+Rating Given:
+
+INSERT INTO rating_given VALUES(1, 5, 'Ambiance', 1, 1, '2016-03-19');
+INSERT INTO rating_given VALUES(2, 3, 'Health', 3, 2, '2017-01-29');
+INSERT INTO rating_given VALUES(3, 2, 'Service', 4, 5, '2016-05-20');
+INSERT INTO rating_given VALUES(4, 4, 'Tastiness', 2, 3, '2016-12-25');
+INSERT INTO rating_given VALUES(5, 1, 'Ambiance', 2, 7, '2017-01-01');
+INSERT INTO rating_given VALUES(6, 5, 'Tastiness', 1, 8, '2016-11-24');
+INSERT INTO rating_given VALUES(7, 5, 'Health', 3, 3, '2015-12-31');
+INSERT INTO rating_given VALUES(8, 3, 'Service', 3, 4, '2017-02-28');
+INSERT INTO rating_given VALUES(9, 4, 'Tastiness', 2, 2, '2017-01-05');
+INSERT INTO rating_given VALUES(10, 4, 'Ambiance', 5, 5, '2017-02-01');
+
+
+
+Review Written:
+
+INSERT INTO review_written VALUES(1, 'Culture Tea is such a cute cafe. The boba quality is excellent and they make their drinks with real, freshly brewed tea. I would definitely recommend going there even though its on the pricier side.', 1, 2, '2017-02-26');
+INSERT INTO review_written VALUES(2, 'I love going to Shiny Tea! The manager is so friendly and there is a lot of variety of boba choices. I especially like the panda boba with herbal jelly!', 2, 4, '2017-01-23');
+INSERT INTO review_written VALUES(3, 'Cafe East is definitely a go to for Columbia students looking to use up their dining dollars or just to grab a quick boba between classes. The boba is definitely not the best quality, but is enough to satisfy those boba cravings.', 3, 6, '2016-12-15');
+INSERT INTO review_written VALUES(4, 'Tea Magic can be a hit or miss sometimes. I have enjoyed the Jasmine Milk Tea and Almond Milk Tea, but some of their other drinks like the Mint Milk Tea are pretty bad.', 4, 2, '2017-01-13');
+INSERT INTO review_written VALUES(5, 'Kung Fu Tea is my favorite! I always go here after eating lunch at ktown. Their boba tastes authentic and the prices are reasonable too. I would highly recommend going here!!', 5, 1, '2017-02-14');
+INSERT INTO review_written VALUES(6, 'Gong Cha is one of the most popular chains in Asia, so naturally I wanted to try the one in New York. At first I was not impressed, but after trying the Matcha Milk Foam I fell in love with this place!', 6, 8, '2017-01-02');
+INSERT INTO review_written VALUES(7, 'Very average place, not anything too special. If you are in Chinatown I would recommend other places nearby such as Gong Cha or Kung Fu Tea.', 7, 5, '2017-01-17');
+INSERT INTO review_written VALUES(8, 'Boba Guys has a great aesthetic and their drinks are very decent as well. Their black milk tea and matcha bubble tea are both great!', 8, 3, '2016-06-08');
+INSERT INTO review_written VALUES(9, 'Coco has a cool orange sign that always cheers me up! Also bubble tea always cheers me up so if you are trying to get in a good mood coco is the place to go!!', 9, 7, '2016-09-29');
+INSERT INTO review_written VALUES(10, 'Tenren is usually good but was very disappointed by the bubbles. They were not very chewy and were kind of hard :(', 10, 1, '2017-02-05');
+
+
+Commands:
+
+"Select all reviews written by user id = 1"
+
+SELECT R.description
+FROM review_written R
+WHERE R.uid = 1
+
+"Return the average of all ratings for cid = 2"
+
+SELECT AVG(R.stars)
+FROM rating_given R
+WHERE R.cid = 2
+
+"Select all cafe names with highest ratings"
+
+SELECT DISTINCT C.name
+FROM Cafe C, rating_given R
+WHERE R.cid = C.cid AND R.stars >= ALL (SELECT R2.stars FROM rating_given R2)
+
+
+
+
+Project Part 2:
+
+"Select Cafe names from column description with keyword 'Quality'"
+SELECT C.name
+FROM Cafe C
+WHERE to_tsvector(description) @@ to_tsquery('quality');
+
+
+

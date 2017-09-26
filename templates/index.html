@@ -1,0 +1,47 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <body>
+    <h1>Boba Directory</h1>
+
+    {% if not session.logged_in %}
+      <a href="{{ url_for('login') }}">Log In | </a>
+      <a href = "{{ url_for('create_account') }}">Create Account | </a>
+    {% else %}
+      <div>Logged in as: {{session.username}}</div>
+      <a href="{{ url_for('logout') }}">Log Out | </a>
+    {% endif %}
+
+    <a href = "/profile">View Profile</a>
+
+
+    <form action="/search" method="post" style = "display:inline">
+        <select name = "category">
+          <option value="cafe">Cafe Name </option>
+          <option value="neighborhood">Neighborhood</option>
+          <option value="time">Available Time (min)</option>
+        </select>
+
+        <input type="text" name="search_query">
+        <input type="submit" value="Search">
+    </form>
+
+    <a href = "/add_cafe">&nbsp; &nbsp; Add Cafe</a>
+
+<!--     <br>
+    <br>
+    <a href = "/nearby">Find Cafes Nearby!</a> -->
+
+    <div><hr></div>
+    <div>
+      {% for entry in data %}
+          <div><a href= {{url_for('details', cname = entry.name)}}>{{entry.name}}</a></div>
+          <div><hr></div>
+      {% endfor %}
+    </div>
+
+
+  </body>
+
+</html>

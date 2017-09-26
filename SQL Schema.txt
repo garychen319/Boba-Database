@@ -1,0 +1,126 @@
+SQL Schema
+Gary Chen gc2676
+Margaret Qian myq2000
+
+
+CREATE TABLE Location(
+	lid INTEGER
+	street CHAR(20)
+	building number INTEGER
+	neighborhood CHAR(20)
+	PRIMARY KEY(lid)
+)
+
+CREATE TABLE Cafe(
+	rid INTEGER
+	type CHAR(20)
+	price_range CHAR(20)
+	number CHAR(10)
+	payment_option CHAR(10)
+	hours CHAR(15)
+	best_seller CHAR(30)
+	PRIMARY KEY(rid)
+)
+
+CREATE TABLE User(
+	uid INTEGER
+	status CHAR(10)
+	first name CHAR(15)
+	last name CHAR(15)
+	username CHAR(15)
+	password CHAR(15)
+	PRIMARY KEY(uid)
+)
+
+CREATE TABLE Review(
+	revid INTEGER
+	description CHAR(200)
+	PRIMARY KEY(revid) 
+)
+
+CREATE TABLE Rating(
+	ratid INTEGER
+	stars INTEGER
+	category CHAR(20)
+	PRIMARY KEY(ratid)
+)
+
+CREATE TABLE Checked_In(
+	rid INTEGER
+	uid INTEGER
+
+	FOREIGN KEY(rid) REFERENCES Cafe
+	FOREIGN KEY(uid) REFERENCES User
+	PRIMARY KEY(rid, uid)
+)
+
+CREATE TABLE Located_At(
+	rid INTEGER
+	lid INTEGER
+
+	FOREIGN KEY(lid) REFERENCES Location
+	FOREIGN Key(rid) REFERENCES Cafe
+		ON DELETE CASCADE
+	PRIMARY KEY(rid)
+)
+
+CREATE TABLE Reviewed(
+	revid INTEGER
+	rid INTEGER
+
+	FOREIGN KEY(revid) REFERENCES Reviews
+	FOREIGN Key(rid) REFERENCES Cafe
+	PRIMARY KEY(revid)
+)
+
+CREATE TABLE Rated(
+	ratid INTEGER
+	rid INTEGER
+
+	FOREIGN KEY(ratid) REFERENCES Ratings
+	FOREIGN Key(rid) REFERENCES Cafe
+	PRIMARY KEY(ratid)
+)
+
+CREATE TABLE Writes(
+	revid INTEGER
+	uid INTEGER
+	date DATE
+
+	FOREIGN KEY(revid) REFERENCES Reviews
+	FOREIGN Key(uid) REFERENCES User
+	PRIMARY KEY(revid)
+)
+
+
+CREATE TABLE Gives(
+	ratid INTEGER
+	uid INTEGER
+	date DATE
+
+	FOREIGN KEY(ratid) REFERENCES Ratings
+	FOREIGN Key(uid) REFERENCES User
+	PRIMARY KEY(ratid)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

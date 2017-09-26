@@ -1,0 +1,26 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <style>
+    body { 
+      padding-top:50px;
+    }
+  </style>
+
+  <body>
+    <div>Search results:</div>
+    <div><hr></div>
+    <div>
+      {% if cafes|length > 0 %}
+        {% for cafe in cafes %}
+            <div><a href= {{url_for('details', cname = cafe.cname)}}>{{cafe.cname}}</a></div>
+            <div><p></p></div>
+        {% endfor %}
+      {% else %}
+        <div>There were no results for your search.</div>
+      {% endif %}
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <style>
+    body { 
+      padding-top:50px;
+    }
+  </style>
+
+  <body>
+
+    <div>
+      <div>Check our some sweet boba cafe shops uptown!</div>
+      {% for cafe in cafes %}
+          <a href= {{url_for('details', cname = cafe)}}>{{cafe}}</a>
+          <div><p></p></div>
+      {% endfor %}
+    </div>
+
+  </body>
+
+
+</html>

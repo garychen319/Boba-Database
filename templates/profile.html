@@ -1,0 +1,27 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <style>
+    body { 
+      padding-top:50px;
+    }
+  </style>
+
+  <body>
+
+    <div>
+      <div> Name: {{user_data.first_name}} {{user_data.last_name}} </div>
+      <div> Username: {{user_data.username}} </div>
+      <div> Boba Status: {{user_data.status}} </div>
+      <div> Cafes checked in to: </div>
+      {% for cafe in cafes %}
+          <a href= {{url_for('details', cname = cafe)}}>{{cafe}}</a>
+          <div><p></p></div>
+      {% endfor %}
+    </div>
+
+  </body>
+
+
+</html>

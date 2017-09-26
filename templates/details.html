@@ -1,0 +1,85 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/templates.css">
+
+  <style>
+    body { 
+      padding-top:50px;
+    }
+  </style>
+
+  <body>
+    <div>
+
+      <div>Name: {{ cafe.name }}</div>
+      <div>Phone Number: {{ cafe.phone }}</div>
+      <div>Hours: {{ cafe.hours }}</div>
+      <div>Price Range: {{ cafe.price }}</div>
+      <div>Payment Option: {{ cafe.payment }}</div>
+      <div>Best Seller: {{cafe.best_seller }}</div>
+      <div><hr></div>
+      {%for location in cafe.location %}
+        {% if location %}
+          <div>Location: {{ location[0] }} {{ location[1] }}, {{ location[2] }}</div>
+        {% endif %}
+      {% endfor %}
+      {% if cafe.location|length > 0 %}
+        <div><hr></div>
+      {% endif %}
+      {% for rating in cafe.rating %}
+        <div>{{ rating[0] }}: {{ rating[1] }} - ({{ rating[2] }} on {{ rating[3] }})</div>
+      {% endfor %}
+      {% if cafe.rating|length> 0 %}
+        <div><hr></div>
+      {% endif %}
+      {% for review in cafe.review %}
+        <div>Review: {{ review[0] }} - ({{ review[1] }} on {{ review[2] }})</div>
+      {%endfor %}
+      {% if cafe.review|length> 0 %}
+        <div><hr></div>
+      {% endif %}
+
+
+    </div>
+
+
+    {% if session.logged_in %}
+      <form method="POST" action="{{url_for('check_in', cname = cafe.name)}}">
+          {% if cafe.checked_in %}
+          <div><input type="submit" disabled = "disabled" value="Checked In"></div>
+          {% else %}
+          <div><input type="submit" value="Check In"></div>
+          {% endif %}
+      </form>
+
+      <div>Give a Rating:</div>
+      <form method="POST" action="{{url_for('give_rating', cname = cafe.name)}}">
+        <select name = "rating_category">
+          <option value="Ambiance">Ambiance</option>
+          <option value="Tastiness">Tastiness</option>
+          <option value="Health">Health</option>
+          <option value="Service">Service</option>
+        </select>
+
+        <select name = "stars">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <input type="submit" value="Submit Rating">
+      </form>
+
+      <div>Write a Review:</div>
+      <form method="POST" action="{{url_for('write_review', cname = cafe.name)}}">
+          <textarea name="review" rows="10" cols="80"></textarea>
+          <div><input type="submit" value="Submit Review"></div>
+      </form>
+
+
+    {% endif %}
+
+  </body>
+</html>

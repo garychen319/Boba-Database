@@ -1,0 +1,62 @@
+a) Array
+
+INSERT INTO Review_written (menu) VALUES (ARRAY['Black milk tea', 'Green milk tea']);
+UPDATE Cafe SET menu = ARRAY['Matcha milk foam', 'Black sugar boba', 'Grass jelly boba'] 
+WHERE cid = (SELECT C.cid FROM Cafe C WHERE C.cid = 1);
+
+
+
+b) Text search
+
+ALTER TABLE Cafe ADD COLUMN description text
+UPDATE Cafe SET description = '-----------'
+WHERE cid = (SELECT C.cid FROM Cafe C WHERE C.cid = 1); 
+
+SELECT C.name
+FROM Cafe C
+WHERE to_tsvector(description) @@ to_tsquery('quality');
+
+
+
+c) Composite Type
+
+CREATE TYPE User_Favorite_Type AS (favid INTEGER, item char(30), price numeric);
+
+CREATE TABLE User_Favorite OF User_Favorite_Type (
+    PRIMARY KEY (favid)
+);
+
+INSERT INTO User_Favorite VALUES(1, 'Tiramisu Pudding Purple Tea', 5.00);
+INSERT INTO User_Favorite VALUES(2, 'Jasmine Milk Tea', 3.50);
+INSERT INTO User_Favorite VALUES(3, 'Almond Milk Tea', 4.50);
+INSERT INTO User_Favorite VALUES(4, 'Thai Milk Tea', 5.00);
+INSERT INTO User_Favorite VALUES(5, 'Coconut Milk Tea', 3.50);
+INSERT INTO User_Favorite VALUES(6, 'Lychee Black Tea', 3.00);
+INSERT INTO User_Favorite VALUES(7, 'Peach Green Tea', 5.50);
+INSERT INTO User_Favorite VALUES(8, 'Honeydew Milk Tea', 4.50);
+INSERT INTO User_Favorite VALUES(9, 'Matcha Latte Tea', 4.00);
+INSERT INTO User_Favorite VALUES(10, 'Green Bean Milk Tea', 5.00);
+
+
+CREATE TABLE Favorite_Of_User(
+	uid INTEGER,
+	favid INTEGER,
+
+	FOREIGN KEY(uid) REFERENCES Users
+		ON DELETE CASCADE,
+	FOREIGN Key(favid) REFERENCES User_Favorite,
+	PRIMARY KEY(uid)
+);
+
+INSERT INTO Favorite_Of_User VALUES(1, 1);
+INSERT INTO Favorite_Of_User VALUES(2, 2);
+INSERT INTO Favorite_Of_User VALUES(3, 3);
+INSERT INTO Favorite_Of_User VALUES(4, 4);
+INSERT INTO Favorite_Of_User VALUES(5, 5);
+INSERT INTO Favorite_Of_User VALUES(6, 6);
+INSERT INTO Favorite_Of_User VALUES(7, 7);
+INSERT INTO Favorite_Of_User VALUES(8, 8);
+INSERT INTO Favorite_Of_User VALUES(9, 9);
+INSERT INTO Favorite_Of_User VALUES(10, 10);
+
+
