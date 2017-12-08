@@ -1,15 +1,15 @@
-Databases Final Project
-Gary Chen gc2676
-Margaret Qian myq2000
-
-PostgresSQL account where our datababse is:
-Username: gc2676
-
-URL: http://104.196.221.126:8111/
+By:
+Gary Chen
+Margaret Qian
 
 Description:
 Boba Tea cafe shop database web application
-We implemented these features:
+
+PostgresSQL account:
+Username: gc2676
+URL: http://104.196.221.126:8111/
+
+Features implemented:
 Users: 
 	-login/logout
 	-create account with username/password
@@ -31,7 +31,7 @@ Search bar:
 	
 
 
-Two most interesting features:
+Two additional features:
 Cafe detail:
 	-Click on a cafe from the main page or from search results.
 	-Page will show details on the cafe, location, previous ratings and reviews
